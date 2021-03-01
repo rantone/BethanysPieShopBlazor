@@ -1,0 +1,31 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "API",
+            "type": "coreclr",
+            "request": "launch",
+            "preLaunchTask": "build api",
+            "program": "${workspaceFolder}/BethanysPieShop.Api/bin/Debug/net5.0/BethanysPieShop.Api.dll",
+            "args": [],
+            "cwd": "${workspaceFolder}/BethanysPieShop.Api",
+            "stopAtEntry": false,
+            "env": {
+                "ASPNETCORE_ENVIRONMENT": "Development",
+            },
+        },      
+        {
+            "name": "Web App",
+            "type": "blazorwasm",
+            "preLaunchTask": "build app",
+            "request": "launch",
+            "cwd": "${workspaceFolder}/BethanysPieShop.App"
+        }
+    ],
+    "compounds": [
+        {
+            "name": "Launch API/Web App",
+            "configurations": ["API", "Web App"]
+        }
+    ]
+}
