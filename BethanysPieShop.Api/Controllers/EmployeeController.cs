@@ -61,12 +61,16 @@ namespace BethanysPieShop.Api.Controllers
                 return BadRequest(ModelState);
 
             string currentUrl = _httpContextAccessor.HttpContext.Request.Host.Value;
-            var path = $"{_webHostEnvironment.WebRootPath}{Path.DirectorySeparatorChar}uploads{Path.DirectorySeparatorChar}{employee.ImageName}";
-            using var fileStream = System.IO.File.Create(path);
-            fileStream.Write(employee.ImageContent, 0, employee.ImageContent.Length);
-            fileStream.Close();
-            employee.ImageName = $"https://{currentUrl}/uploads/{employee.ImageName}";
-
+            if(!string.IsNullOrEmpty(employee.ImageName))
+            {
+                var path = $"{_webHostEnvironment.WebRootPath}{Path.DirectorySeparatorChar}uploads{Path.DirectorySeparatorChar}{employee.ImageName}";
+                using var fileStream = System.IO.File.Create(path);
+                fileStream.Write(employee.ImageContent, 0, employee.ImageContent.Length);
+                fileStream.Close();
+                
+                employee.ImageName = $"https://{currentUrl}/uploads/{employee.ImageName}";
+            }
+            
             var createdEmployee = _employeeRepository.AddEmployee(employee);
 
             return Created("employee", createdEmployee);
